@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Laporan Verifikasi Komitmen KPM PKH</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: var(--light);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .form-section h2 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .dynamic-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px dashed #ddd;
+        }
+        
+        .dynamic-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .file-upload {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .preview-image {
+            max-width: 200px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .month-absensi {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .month-item {
+            text-align: center;
+        }
+        
+        .month-item label {
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .file-name {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .month-absensi {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Form Laporan Verifikasi Komitmen KPM PKH</h1>
+        
+        <div class="success-message" id="successMessage">
+            ✅ <strong>Berhasil!</strong> Laporan telah disimpan ke database.
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Mengirim data, harap tunggu...</p>
+        </div>
+        
+        <form id="verificationForm">
+            <!-- Data KPM -->
+            <div class="form-section">
+                <h2>Data Keluarga Penerima Manfaat (KPM)</h2>
+                <div class="form-group">
+                    <label for="kpmName">Nama KPM (Pengurus) *</label>
+                    <input type="text" id="kpmName" name="kpmName" placeholder="Contoh: Parjiyem-33090786378975156" required>
+                </div>
+            </div>
+            
+            <!-- Komponen PKH -->
+            <div class="form-section">
+                <h2>Komponen PKH *</h2>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="componentEducation" name="component" value="pendidikan">
+                        <label for="componentEducation">Pendidikan</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="componentElderly" name="component" value="lansia">
+                        <label for="componentElderly">Lansia</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Komponen Pendidikan -->
+            <div class="form-section hidden" id="educationSection">
+                <h2>Data Anak (Komponen Pendidikan)</h2>
+                <div id="educationContainer">
+                    <!-- Pendidikan item akan ditambahkan secara dinamis -->
+                </div>
+                <button type="button" class="btn btn-secondary" id="addEducation">+ Tambah Anak</button>
+            </div>
+            
+            <!-- Komponen Lansia -->
+            <div class="form-section hidden" id="elderlySection">
+                <h2>Data Lansia</h2>
+                <div id="elderlyContainer">
+                    <!-- Lansia item akan ditambahkan secara dinamis -->
+                </div>
+                <button type="button" class="btn btn-secondary" id="addElderly">+ Tambah Lansia</button>
+            </div>
+            
+            <!-- Informasi Tambahan -->
+            <div class="form-section">
+                <h2>Informasi Tambahan</h2>
+                <div class="form-group">
+                    <label for="additionalInfo">Catatan atau informasi tambahan lainnya</label>
+                    <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Masukkan informasi tambahan yang diperlukan..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Tombol Aksi -->
+            <div class="action-buttons">
+                <button type="button" class="btn btn-danger" id="resetBtn">Reset Form</button>
+                <button type="submit" class="btn btn-primary">Kirim Laporan</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // KONFIGURASI - GANTI DENGAN SCRIPT_URL SETELAH DEPLOY
+        const SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elemen utama
+            const educationSection = document.getElementById('educationSection');
+            const elderlySection = document.getElementById('elderlySection');
+            const educationContainer = document.getElementById('educationContainer');
+            const elderlyContainer = document.getElementById('elderlyContainer');
+            const addEducationBtn = document.getElementById('addEducation');
+            const addElderlyBtn = document.getElementById('addElderly');
+            const componentEducation = document.getElementById('componentEducation');
+            const componentElderly = document.getElementById('componentElderly');
+            const resetBtn = document.getElementById('resetBtn');
+            const form = document.getElementById('verificationForm');
+            const loading = document.getElementById('loading');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Event listener untuk checkbox komponen
+            componentEducation.addEventListener('change', function() {
+                if (this.checked) {
+                    educationSection.classList.remove('hidden');
+                    if (educationContainer.children.length === 0) {
+                        addEducationItem();
+                    }
+                } else {
+                    educationSection.classList.add('hidden');
+                    educationContainer.innerHTML = '';
+                }
+            });
+            
+            componentElderly.addEventListener('change', function() {
+                if (this.checked) {
+                    elderlySection.classList.remove('hidden');
+                    if (elderlyContainer.children.length === 0) {
+                        addElderlyItem();
+                    }
+                } else {
+                    elderlySection.classList.add('hidden');
+                    elderlyContainer.innerHTML = '';
+                }
+            });
+            
+            // Fungsi untuk menambah item pendidikan
+            function addEducationItem() {
+                const educationId = Date.now();
+                const educationItem = document.createElement('div');
+                educationItem.className = 'dynamic-item';
+                educationItem.innerHTML = `
+                    <h3>Data Anak</h3>
+                    <div class="form-group">
+                        <label for="childName-${educationId}">Nama Anak *</label>
+                        <input type="text" id="childName-${educationId}" name="childName[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="schoolName-${educationId}">Nama Sekolah *</label>
+                        <input type="text" id="schoolName-${educationId}" name="schoolName[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="class-${educationId}">Kelas *</label>
+                        <input type="text" id="class-${educationId}" name="class[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Absensi (Foto) - Opsional</label>
+                        <div class="month-absensi">
+                            <div class="month-item">
+                                <label for="absensiJuli-${educationId}">Juli 2025</label>
+                                <div class="file-upload" onclick="document.getElementById('absensiJuli-${educationId}').click()">
+                                    📁 Unggah Foto
+                                </div>
+                                <input type="file" id="absensiJuli-${educationId}" name="absensiJuli[]" accept="image/*, .pdf" style="display: none;">
+                                <div id="fileNameJuli-${educationId}" class="file-name"></div>
+                            </div>
+                            <div class="month-item">
+                                <label for="absensiAgustus-${educationId}">Agustus 2025</label>
+                                <div class="file-upload" onclick="document.getElementById('absensiAgustus-${educationId}').click()">
+                                    📁 Unggah Foto
+                                </div>
+                                <input type="file" id="absensiAgustus-${educationId}" name="absensiAgustus[]" accept="image/*, .pdf" style="display: none;">
+                                <div id="fileNameAgustus-${educationId}" class="file-name"></div>
+                            </div>
+                            <div class="month-item">
+                                <label for="absensiSeptember-${educationId}">September 2025</label>
+                                <div class="file-upload" onclick="document.getElementById('absensiSeptember-${educationId}').click()">
+                                    📁 Unggah Foto
+                                </div>
+                                <input type="file" id="absensiSeptember-${educationId}" name="absensiSeptember[]" accept="image/*, .pdf" style="display: none;">
+                                <div id="fileNameSeptember-${educationId}" class="file-name"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm remove-education">Hapus Anak</button>
+                `;
+                
+                educationContainer.appendChild(educationItem);
+                
+                // Event listener untuk file input
+                setupFileInput(`absensiJuli-${educationId}`, `fileNameJuli-${educationId}`);
+                setupFileInput(`absensiAgustus-${educationId}`, `fileNameAgustus-${educationId}`);
+                setupFileInput(`absensiSeptember-${educationId}`, `fileNameSeptember-${educationId}`);
+                
+                // Event listener untuk tombol hapus
+                const removeBtn = educationItem.querySelector('.remove-education');
+                removeBtn.addEventListener('click', function() {
+                    if (educationContainer.children.length > 1) {
+                        educationContainer.removeChild(educationItem);
+                    } else {
+                        alert('Minimal harus ada satu data anak untuk komponen pendidikan.');
+                    }
+                });
+            }
+            
+            // Fungsi untuk menambah item lansia
+            function addElderlyItem() {
+                const elderlyId = Date.now();
+                const elderlyItem = document.createElement('div');
+                elderlyItem.className = 'dynamic-item';
+                elderlyItem.innerHTML = `
+                    <h3>Data Lansia</h3>
+                    <div class="form-group">
+                        <label for="elderlyName-${elderlyId}">Nama Lansia *</label>
+                        <input type="text" id="elderlyName-${elderlyId}" name="elderlyName[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="elderlyAge-${elderlyId}">Umur *</label>
+                        <input type="number" id="elderlyAge-${elderlyId}" name="elderlyAge[]" required min="1" max="120">
+                    </div>
+                    <div class="form-group">
+                        <label>Foto Pengurusan Lansia - Opsional</label>
+                        <div class="month-absensi">
+                            <div class="month-item">
+                                <label for="fotoJuli-${elderlyId}">Juli 2025</label>
+                                <div class="file-upload" onclick="document.getElementById('fotoJuli-${elderlyId}').click()">
+                                    📁 Unggah Foto
+                                </div>
+                                <input type="file" id="fotoJuli-${elderlyId}" name="fotoJuli[]" accept="image/*, .pdf" style="display: none;">
+                                <div id="fileNameFotoJuli-${elderlyId}" class="file-name"></div>
+                            </div>
+                            <div class="month-item">
+                                <label for="fotoAgustus-${elderlyId}">Agustus 2025</label>
+                                <div class="file-upload" onclick="document.getElementById('fotoAgustus-${elderlyId}').click()">
+                                    📁 Unggah Foto
+                                </div>
+                                <input type="file" id="fotoAgustus-${elderlyId}" name="fotoAgustus[]" accept="image/*, .pdf" style="display: none;">
+                                <div id="fileNameFotoAgustus-${elderlyId}" class="file-name"></div>
+                            </div>
+                            <div class="month-item">
+                                <label for="fotoSeptember-${elderlyId}">September 2025</label>
+                                <div class="file-upload" onclick="document.getElementById('fotoSeptember-${elderlyId}').click()">
+                                    📁 Unggah Foto
+                                </div>
+                                <input type="file" id="fotoSeptember-${elderlyId}" name="fotoSeptember[]" accept="image/*, .pdf" style="display: none;">
+                                <div id="fileNameFotoSeptember-${elderlyId}" class="file-name"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm remove-elderly">Hapus Lansia</button>
+                `;
+                
+                elderlyContainer.appendChild(elderlyItem);
+                
+                // Event listener untuk file input
+                setupFileInput(`fotoJuli-${elderlyId}`, `fileNameFotoJuli-${elderlyId}`);
+                setupFileInput(`fotoAgustus-${elderlyId}`, `fileNameFotoAgustus-${elderlyId}`);
+                setupFileInput(`fotoSeptember-${elderlyId}`, `fileNameFotoSeptember-${elderlyId}`);
+                
+                // Event listener untuk tombol hapus
+                const removeBtn = elderlyItem.querySelector('.remove-elderly');
+                removeBtn.addEventListener('click', function() {
+                    if (elderlyContainer.children.length > 1) {
+                        elderlyContainer.removeChild(elderlyItem);
+                    } else {
+                        alert('Minimal harus ada satu data lansia untuk komponen lansia.');
+                    }
+                });
+            }
+            
+            // Setup file input dengan nama file
+            function setupFileInput(inputId, fileNameId) {
+                const input = document.getElementById(inputId);
+                const fileNameDiv = document.getElementById(fileNameId);
+                
+                input.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        fileNameDiv.textContent = this.files[0].name + ` (${formatFileSize(this.files[0].size)})`;
+                        fileNameDiv.style.color = '#27ae60';
+                    } else {
+                        fileNameDiv.textContent = '';
+                    }
+                });
+            }
+            
+            // Format ukuran file
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Event listener untuk tombol tambah
+            addEducationBtn.addEventListener('click', addEducationItem);
+            addElderlyBtn.addEventListener('click', addElderlyItem);
+            
+            // Event listener untuk tombol reset
+            resetBtn.addEventListener('click', function() {
+                if (confirm('Apakah Anda yakin ingin mereset form? Semua data yang telah dimasukkan akan hilang.')) {
+                    resetForm();
+                }
+            });
+            
+            // Fungsi reset form
+            function resetForm() {
+                form.reset();
+                educationContainer.innerHTML = '';
+                elderlyContainer.innerHTML = '';
+                educationSection.classList.add('hidden');
+                elderlySection.classList.add('hidden');
+                componentEducation.checked = false;
+                componentElderly.checked = false;
+                successMessage.style.display = 'none';
+                
+                // Reset semua nama file
+                document.querySelectorAll('.file-name').forEach(el => {
+                    el.textContent = '';
+                });
+            }
+            
+            // Event listener untuk submit form
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Validasi form
+                if (!validateForm()) {
+                    return;
+                }
+                
+                // Tampilkan loading
+                loading.style.display = 'block';
+                form.style.display = 'none';
+                successMessage.style.display = 'none';
+                
+                try {
+                    // Kumpulkan data form
+                    const formData = await collectFormData();
+                    
+                    // Kirim ke Google Apps Script
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(formData),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.status === 'success') {
+                        successMessage.style.display = 'block';
+                        successMessage.innerHTML = `✅ <strong>Berhasil!</strong> Laporan telah disimpan. 
+                            <br><small>ID Laporan: ${result.reportId}</small>`;
+                        resetForm();
+                    } else {
+                        throw new Error(result.message);
+                    }
+                    
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                    console.error('Error details:', error);
+                } finally {
+                    // Sembunyikan loading
+                    loading.style.display = 'none';
+                    form.style.display = 'block';
+                }
+            });
+            
+            // Validasi form
+            function validateForm() {
+                if (!componentEducation.checked && !componentElderly.checked) {
+                    alert('Pilih minimal satu komponen PKH (Pendidikan atau Lansia)');
+                    return false;
+                }
+                
+                if (componentEducation.checked && educationContainer.children.length === 0) {
+                    alert('Tambahkan minimal satu data anak untuk komponen pendidikan');
+                    return false;
+                }
+                
+                if (componentElderly.checked && elderlyContainer.children.length === 0) {
+                    alert('Tambahkan minimal satu data lansia untuk komponen lansia');
+                    return false;
+                }
+                
+                // Validasi field required
+                const kpmName = document.getElementById('kpmName').value.trim();
+                if (!kpmName) {
+                    alert('Nama KPM harus diisi');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Fungsi untuk mengumpulkan data form
+            async function collectFormData() {
+                const formData = {
+                    kpmName: document.getElementById('kpmName').value.trim(),
+                    components: [],
+                    children: [],
+                    elderly: [],
+                    additionalInfo: document.getElementById('additionalInfo').value.trim(),
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Tentukan komponen
+                if (componentEducation.checked) {
+                    formData.components.push('Pendidikan');
+                }
+                if (componentElderly.checked) {
+                    formData.components.push('Lansia');
+                }
+                
+                // Kumpulkan data anak
+                const childNames = document.querySelectorAll('[name="childName[]"]');
+                const schoolNames = document.querySelectorAll('[name="schoolName[]"]');
+                const classes = document.querySelectorAll('[name="class[]"]');
+                
+                for (let i = 0; i < childNames.length; i++) {
+                    const childData = {
+                        name: childNames[i].value.trim(),
+                        school: schoolNames[i].value.trim(),
+                        class: classes[i].value.trim(),
+                        photos: {}
+                    };
+                    
+                    // Handle foto absensi
+                    const absensiJuli = document.querySelectorAll('[name="absensiJuli[]"]')[i];
+                    const absensiAgustus = document.querySelectorAll('[name="absensiAgustus[]"]')[i];
+                    const absensiSeptember = document.querySelectorAll('[name="absensiSeptember[]"]')[i];
+                    
+                    if (absensiJuli.files[0]) {
+                        childData.photos.juli = await fileToBase64(absensiJuli.files[0]);
+                    }
+                    if (absensiAgustus.files[0]) {
+                        childData.photos.agustus = await fileToBase64(absensiAgustus.files[0]);
+                    }
+                    if (absensiSeptember.files[0]) {
+                        childData.photos.september = await fileToBase64(absensiSeptember.files[0]);
+                    }
+                    
+                    formData.children.push(childData);
+                }
+                
+                // Kumpulkan data lansia
+                const elderlyNames = document.querySelectorAll('[name="elderlyName[]"]');
+                const elderlyAges = document.querySelectorAll('[name="elderlyAge[]"]');
+                
+                for (let i = 0; i < elderlyNames.length; i++) {
+                    const elderlyData = {
+                        name: elderlyNames[i].value.trim(),
+                        age: elderlyAges[i].value,
+                        photos: {}
+                    };
+                    
+                    // Handle foto pengurusan
+                    const fotoJuli = document.querySelectorAll('[name="fotoJuli[]"]')[i];
+                    const fotoAgustus = document.querySelectorAll('[name="fotoAgustus[]"]')[i];
+                    const fotoSeptember = document.querySelectorAll('[name="fotoSeptember[]"]')[i];
+                    
+                    if (fotoJuli.files[0]) {
+                        elderlyData.photos.juli = await fileToBase64(fotoJuli.files[0]);
+                    }
+                    if (fotoAgustus.files[0]) {
+                        elderlyData.photos.agustus = await fileToBase64(fotoAgustus.files[0]);
+                    }
+                    if (fotoSeptember.files[0]) {
+                        elderlyData.photos.september = await fileToBase64(fotoSeptember.files[0]);
+                    }
+                    
+                    formData.elderly.push(elderlyData);
+                }
+                
+                return formData;
+            }
+            
+            // Fungsi untuk convert file ke base64
+            function fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    // Validasi ukuran file (max 5MB)
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    if (file.size > maxSize) {
+                        reject(new Error(`File ${file.name} terlalu besar. Maksimal 5MB`));
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                        // Hanya ambil base64 bagian (setelah comma)
+                        const base64 = reader.result.split(',')[1];
+                        resolve({
+                            data: base64,
+                            name: file.name,
+                            type: file.type,
+                            size: file.size
+                        });
+                    };
+                    reader.onerror = error => reject(error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
